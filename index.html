@@ -10,15 +10,17 @@
   <style>
     /* ─── Tokens ─── */
     :root {
-      --bg:       #0c0c0c;
-      --surface:  #141414;
-      --border:   #252525;
-      --text:     #cfc9bf;
-      --muted:    #615d57;
-      --olive:    #7c7c52;
-      --accent:   #9e9e6a;
-      --serif:    'Fraunces', Georgia, serif;
-      --sans:     'Inter', system-ui, sans-serif;
+      --bg:        #0a0a09;
+      --surface:   #111110;
+      --surface2:  #181816;
+      --border:    #242420;
+      --text:      #cec9bc;
+      --muted:     #5e5a52;
+      --olive:     #9c9c58;      /* real accent — use it */
+      --olive-dim: #6b6b3c;
+      --gray:      #888880;
+      --serif:     'Fraunces', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
     }
 
     /* ─── Reset ─── */
@@ -34,7 +36,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ─── Grain overlay ─── */
+    /* ─── VHS grain ─── */
     body::before {
       content: '';
       position: fixed;
@@ -42,24 +44,39 @@
       width: 200%;
       height: 200%;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.035;
+      opacity: 0.055;
       pointer-events: none;
       z-index: 1000;
-      animation: grain 0.5s steps(2) infinite;
+      animation: grain 0.45s steps(2) infinite;
     }
 
     @keyframes grain {
-      0%   { transform: translate(0,   0);   }
-      20%  { transform: translate(-2%, -3%); }
-      40%  { transform: translate(3%,  1%);  }
-      60%  { transform: translate(-1%, 4%);  }
-      80%  { transform: translate(2%,  -2%); }
-      100% { transform: translate(0,   0);   }
+      0%   { transform: translate(0, 0);    }
+      20%  { transform: translate(-3%, -2%); }
+      40%  { transform: translate(2%, 3%);   }
+      60%  { transform: translate(-2%, 2%);  }
+      80%  { transform: translate(3%, -3%);  }
+      100% { transform: translate(0, 0);    }
+    }
+
+    /* ─── VHS scanlines ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
     }
 
     /* ─── Layout ─── */
     .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
     section { padding: 96px 0; }
 
     hr.divider {
@@ -73,7 +90,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(12,12,12,0.85);
+      background: rgba(10, 10, 9, 0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -89,32 +106,33 @@
 
     nav .wordmark {
       font-family: var(--serif);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 400;
-      letter-spacing: 0.02em;
+      font-style: italic;
+      letter-spacing: 0.01em;
       color: var(--text);
       text-decoration: none;
     }
 
     nav .nav-link {
-      font-size: 0.8rem;
-      font-weight: 400;
-      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    nav .nav-link:hover { color: var(--text); }
+    nav .nav-link:hover { color: var(--olive); }
 
     /* ─── Hero ─── */
     .hero { padding: 140px 0 96px; }
 
     .hero-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--olive);
       margin-bottom: 28px;
@@ -122,10 +140,10 @@
 
     .hero h1 {
       font-family: var(--serif);
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
       font-weight: 300;
       font-style: italic;
-      line-height: 1.15;
+      line-height: 1.12;
       color: var(--text);
       max-width: 760px;
       margin-bottom: 28px;
@@ -134,45 +152,45 @@
     .hero p {
       font-size: 1rem;
       color: var(--muted);
-      max-width: 520px;
+      max-width: 500px;
       margin-bottom: 44px;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     .btn {
       display: inline-block;
       padding: 13px 32px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--olive-dim);
       border-radius: 2px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--olive);
       text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
 
     .btn:hover {
+      background: var(--olive);
       border-color: var(--olive);
-      color: var(--accent);
+      color: var(--bg);
     }
 
     /* ─── Work / Video Grid ─── */
     .work h2 {
-      font-family: var(--serif);
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--olive);
       margin-bottom: 48px;
     }
 
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
+      gap: 12px;
     }
 
     .video-slot {
@@ -183,14 +201,12 @@
       overflow: hidden;
     }
 
-    /* 16:9 aspect ratio */
     .video-slot::before {
       content: '';
       display: block;
-      padding-top: 56.25%;
+      padding-top: 56.25%; /* 16:9 */
     }
 
-    /* Live: swap placeholder for real embed */
     .video-slot iframe {
       position: absolute;
       inset: 0;
@@ -207,37 +223,37 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 20px;
+      padding: 24px;
       text-align: center;
     }
 
-    .video-placeholder .clip-label {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--olive);
-    }
-
-    .video-placeholder .clip-title {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-style: italic;
-      color: var(--text);
-      opacity: 0.5;
-    }
-
-    .video-placeholder .clip-icon {
-      width: 28px;
-      height: 28px;
+    .clip-icon {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--muted);
-      font-size: 0.7rem;
+      color: var(--olive-dim);
+      font-size: 0.65rem;
       margin-bottom: 4px;
+    }
+
+    .clip-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--olive);
+    }
+
+    .clip-title {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text);
+      opacity: 0.4;
     }
 
     /* ─── Bio ─── */
@@ -252,29 +268,28 @@
       .bio-inner { grid-template-columns: 1fr; gap: 40px; }
     }
 
-    .bio-label {
-      font-size: 0.72rem;
+    .section-label {
+      font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--olive);
       margin-bottom: 32px;
     }
 
     .bio h2 {
       font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
       font-weight: 300;
       font-style: italic;
-      line-height: 1.25;
+      line-height: 1.22;
       color: var(--text);
-      margin-bottom: 0;
     }
 
     .bio-text p {
       font-size: 0.95rem;
       color: var(--muted);
-      line-height: 1.8;
+      line-height: 1.85;
       margin-bottom: 20px;
     }
 
@@ -282,11 +297,11 @@
 
     /* ─── Services ─── */
     .services h2 {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--olive);
       margin-bottom: 48px;
     }
 
@@ -328,7 +343,7 @@
     .service-col li {
       font-size: 0.85rem;
       color: var(--muted);
-      padding-left: 14px;
+      padding-left: 16px;
       position: relative;
     }
 
@@ -336,7 +351,72 @@
       content: '—';
       position: absolute;
       left: 0;
+      color: var(--olive-dim);
+    }
+
+    /* ─── Rates ─── */
+    .rates h2 {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--olive);
+      margin-bottom: 48px;
+    }
+
+    .rates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 680px) {
+      .rates-grid { grid-template-columns: 1fr; }
+    }
+
+    .rate-row {
+      background: var(--bg);
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 24px;
+    }
+
+    .rate-row:hover {
+      background: var(--surface);
+    }
+
+    .rate-name {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .rate-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .rate-price {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--olive);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .rates-note {
+      margin-top: 20px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
     }
 
     /* ─── Contact ─── */
@@ -363,32 +443,11 @@
       border-top: 1px solid var(--border);
       max-width: 1080px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     footer p {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .socials { display: flex; gap: 20px; }
-
-    .socials a {
       font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .socials a:hover { color: var(--text); }
-
-    @media (max-width: 480px) {
-      footer { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
 </head>
@@ -405,7 +464,7 @@
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <p class="hero-label">LA · Pianist · Producer · Recording Musician</p>
+      <p class="hero-label">Los Angeles · Pianist · Producer · Recording Musician</p>
       <h1>Psychedelic piano, jazz harmony, and atmospheric production.</h1>
       <p>LA-based. Available for session tracking, live gigs, touring support, and select production work.</p>
       <a href="#contact" class="btn">Get in touch</a>
@@ -420,7 +479,8 @@
       <h2>Work</h2>
       <div class="video-grid">
 
-        <!-- Clip 1 — swap placeholder div for <iframe src="..."> when ready -->
+        <!-- Swap each placeholder div for <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen> once clips are uploaded -->
+
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -429,7 +489,6 @@
           </div>
         </div>
 
-        <!-- Clip 2 -->
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -438,7 +497,6 @@
           </div>
         </div>
 
-        <!-- Clip 3 -->
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -447,7 +505,6 @@
           </div>
         </div>
 
-        <!-- Clip 4 -->
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -456,7 +513,6 @@
           </div>
         </div>
 
-        <!-- Clip 5 -->
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -465,7 +521,6 @@
           </div>
         </div>
 
-        <!-- Clip 6 — talking head; may move to bio section instead -->
         <div class="video-slot">
           <div class="video-placeholder">
             <div class="clip-icon">▶</div>
@@ -485,7 +540,7 @@
     <div class="container">
       <div class="bio-inner">
         <div class="bio-headline">
-          <p class="bio-label">About</p>
+          <p class="section-label">About</p>
           <h2>Jazz roots, psychedelic edge, atmospheric everything else.</h2>
         </div>
         <div class="bio-text">
@@ -537,12 +592,72 @@
 
   <hr class="divider" />
 
+  <!-- Rates -->
+  <section class="rates">
+    <div class="container">
+      <h2>Rates</h2>
+      <div class="rates-grid">
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">Restaurant / Lounge Set</div>
+            <div class="rate-sub">1–2 hrs, solo piano</div>
+          </div>
+          <span class="rate-price">$250–$350</span>
+        </div>
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">Private Event</div>
+            <div class="rate-sub">2 hrs, solo piano</div>
+          </div>
+          <span class="rate-price">$350–$600</span>
+        </div>
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">Remote Session Tracking</div>
+            <div class="rate-sub">Piano or keys, per song</div>
+          </div>
+          <span class="rate-price">$200–$300</span>
+        </div>
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">Full Keys Package</div>
+            <div class="rate-sub">Piano + synths + textures, per song</div>
+          </div>
+          <span class="rate-price">$350–$600</span>
+        </div>
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">In-Person Session</div>
+            <div class="rate-sub">2–3 hr block</div>
+          </div>
+          <span class="rate-price">$300–$500</span>
+        </div>
+
+        <div class="rate-row">
+          <div>
+            <div class="rate-name">Beat Pack</div>
+            <div class="rate-sub">3 beats, reference-based</div>
+          </div>
+          <span class="rate-price">$400–$750</span>
+        </div>
+
+      </div>
+      <p class="rates-note">Touring and long-form production quoted separately. Rush turnaround +25%.</p>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
   <!-- Contact -->
   <section class="contact" id="contact">
     <div class="container">
       <h2>Book a session or gig.</h2>
       <p>Session work, live performance, touring, production — reach out directly.</p>
-      <!-- Replace with Ted's actual email -->
       <a href="mailto:gallegos.tedward@gmail.com" class="btn">gallegos.tedward@gmail.com</a>
     </div>
   </section>
