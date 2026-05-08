@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ted Gallegos — Pianist · Producer · Recording Musician</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Tokens ─── */
+    :root {
+      --bg:       #0c0c0c;
+      --surface:  #141414;
+      --border:   #252525;
+      --text:     #cfc9bf;
+      --muted:    #615d57;
+      --olive:    #7c7c52;
+      --accent:   #9e9e6a;
+      --serif:    'Fraunces', Georgia, serif;
+      --sans:     'Inter', system-ui, sans-serif;
+    }
+
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Grain overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 1000;
+      animation: grain 0.5s steps(2) infinite;
+    }
+
+    @keyframes grain {
+      0%   { transform: translate(0,   0);   }
+      20%  { transform: translate(-2%, -3%); }
+      40%  { transform: translate(3%,  1%);  }
+      60%  { transform: translate(-1%, 4%);  }
+      80%  { transform: translate(2%,  -2%); }
+      100% { transform: translate(0,   0);   }
+    }
+
+    /* ─── Layout ─── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    section { padding: 96px 0; }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12,12,12,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    nav .wordmark {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    nav .nav-link {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav .nav-link:hover { color: var(--text); }
+
+    /* ─── Hero ─── */
+    .hero { padding: 140px 0 96px; }
+
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.15;
+      color: var(--text);
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 44px;
+      line-height: 1.7;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 32px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn:hover {
+      border-color: var(--olive);
+      color: var(--accent);
+    }
+
+    /* ─── Work / Video Grid ─── */
+    .work h2 {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .video-slot {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    /* 16:9 aspect ratio */
+    .video-slot::before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
+
+    /* Live: swap placeholder for real embed */
+    .video-slot iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .video-placeholder .clip-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--olive);
+    }
+
+    .video-placeholder .clip-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text);
+      opacity: 0.5;
+    }
+
+    .video-placeholder .clip-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-bottom: 4px;
+    }
+
+    /* ─── Bio ─── */
+    .bio-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 680px) {
+      .bio-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .bio-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .bio h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 0;
+    }
+
+    .bio-text p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .bio-text p:last-child { margin-bottom: 0; }
+
+    /* ─── Services ─── */
+    .services h2 {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 680px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    .service-col {
+      background: var(--bg);
+      padding: 40px 32px;
+    }
+
+    .service-col h3 {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .service-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .service-col li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .service-col li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--olive);
+    }
+
+    /* ─── Contact ─── */
+    .contact { padding: 80px 0; text-align: center; }
+
+    .contact h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .contact p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .socials { display: flex; gap: 20px; }
+
+    .socials a {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .socials a:hover { color: var(--text); }
+
+    @media (max-width: 480px) {
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="inner">
+      <a href="#" class="wordmark">Ted Gallegos</a>
+      <a href="#contact" class="nav-link">Booking</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-label">LA · Pianist · Producer · Recording Musician</p>
+      <h1>Psychedelic piano, jazz harmony, and atmospheric production.</h1>
+      <p>LA-based. Available for session tracking, live gigs, touring support, and select production work.</p>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Work -->
+  <section class="work">
+    <div class="container">
+      <h2>Work</h2>
+      <div class="video-grid">
+
+        <!-- Clip 1 — swap placeholder div for <iframe src="..."> when ready -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 01</span>
+            <span class="clip-title">Technical jazz run</span>
+          </div>
+        </div>
+
+        <!-- Clip 2 -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 02</span>
+            <span class="clip-title">Emotional progression</span>
+          </div>
+        </div>
+
+        <!-- Clip 3 -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 03</span>
+            <span class="clip-title">Psych rock / synth texture</span>
+          </div>
+        </div>
+
+        <!-- Clip 4 -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 04</span>
+            <span class="clip-title">Restaurant / lounge jazz</span>
+          </div>
+        </div>
+
+        <!-- Clip 5 -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 05</span>
+            <span class="clip-title">Beat build</span>
+          </div>
+        </div>
+
+        <!-- Clip 6 — talking head; may move to bio section instead -->
+        <div class="video-slot">
+          <div class="video-placeholder">
+            <div class="clip-icon">▶</div>
+            <span class="clip-label">Clip 06</span>
+            <span class="clip-title">Intro</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Bio -->
+  <section class="bio">
+    <div class="container">
+      <div class="bio-inner">
+        <div class="bio-headline">
+          <p class="bio-label">About</p>
+          <h2>Jazz roots, psychedelic edge, atmospheric everything else.</h2>
+        </div>
+        <div class="bio-text">
+          <p>Ted is an LA-based pianist, producer, and recording musician. He started making music at 12 in Virginia — experimental pop first, then jazz piano, then psychedelic rock, abstract electronic, and beat production.</p>
+          <p>His current work blends jazz harmony, atmospheric electronics, and analog texture into something that doesn't fit a single lane. Herbie Hancock, Radiohead, Boards of Canada, Animal Collective — that general territory.</p>
+          <p>Available for piano and keys tracking, live performance, touring support, restaurant and private event sets, and production work for the right artists.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Services -->
+  <section class="services">
+    <div class="container">
+      <h2>Services</h2>
+      <div class="services-grid">
+        <div class="service-col">
+          <h3>Session Work</h3>
+          <ul>
+            <li>Piano &amp; keys tracking</li>
+            <li>Synth &amp; atmospheric textures</li>
+            <li>Remote or in-person</li>
+            <li>Adaptable to reference</li>
+          </ul>
+        </div>
+        <div class="service-col">
+          <h3>Live Performance</h3>
+          <ul>
+            <li>Restaurant / lounge sets</li>
+            <li>Private events</li>
+            <li>Solo piano performance</li>
+            <li>Touring support</li>
+          </ul>
+        </div>
+        <div class="service-col">
+          <h3>Production</h3>
+          <ul>
+            <li>Beat packs by reference</li>
+            <li>Keys &amp; texture production</li>
+            <li>Custom vibe packs</li>
+            <li>Send references first</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2>Book a session or gig.</h2>
+      <p>Session work, live performance, touring, production — reach out directly.</p>
+      <!-- Replace with Ted's actual email -->
+      <a href="mailto:gallegos.tedward@gmail.com" class="btn">gallegos.tedward@gmail.com</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Ted Gallegos. Los Angeles.</p>
+  </footer>
+
+</body>
+</html>
